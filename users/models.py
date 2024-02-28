@@ -13,6 +13,7 @@ class User(AbstractUser):
     birthday = models.DateField(verbose_name='Дата рождения')
 
     phone = models.CharField(max_length=35, verbose_name='Телефон', **NULLABLE)
+    address = models.CharField(max_length=150, verbose_name='Адрес', **NULLABLE)
     photo = models.ImageField(upload_to='users/', verbose_name='Фото', **NULLABLE)
     comment = models.TextField(verbose_name='Комментарий', **NULLABLE)
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Created date')
@@ -27,7 +28,7 @@ class User(AbstractUser):
     #     return self.groups.filter(name=group_name).exists()
 
     class Meta:
-        verbose_name = 'Клиент'
-        verbose_name_plural = 'Клиенты'
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
         ordering = ('last_name',)
         # permissions = [('set_user_active_status', 'Can activate/deactivate users')]
