@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="col-12">
+    <form method="post" class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Login
+                    </h3>
+                </div>
+
+           {% comment %}
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-secondary">
+                        Login
+                    </button>
+                    <a class="btn btn-outline-secondary"  href="{% url 'mailing:index' %}">Cancel</a>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'users:password_reset' %}">Forgot password?</a>
+                </div>
+            {% endcomment %}
+
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
