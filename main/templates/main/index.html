@@ -1,5 +1,5 @@
 {% extends 'main/base.html' %}
-{#  {% load my_tags %}  #}
+{% load my_tags %}
 {% block content %}
 <main>
 
@@ -10,68 +10,128 @@
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
+
         <div class="carousel-inner">
+
+            {% for object in object_list %}
+            {% if forloop.first %}
             <div class="carousel-item active">
-<!--                <img src="https://www.viena.by/wp-content/uploads/2017/09/baner1.png">-->
-                <img src="https://invitro.kz/upload/resize_cache/landing/344/querhl949t5gt6anbz1um1r49xdclzdc/450_450_1/Img_2.png">
-<!--                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"-->
-<!--                     aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">-->
-<!--                    <rect width="100%" height="100%" fill="#777"/>-->
-<!--                </svg>-->
+                {% else %}
+                <div class="carousel-item">
+                    {% endif %}
 
-                <div class="container">
-                    <div class="carousel-caption text-start">
-                        <h1>Example headline.</h1>
-                        <p>Some representative placeholder content for the first slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-info" href="#">Sign up today</a></p>
+                    <img src="{{ object.image|mediapath }}" class="img-fluid rounded-start" alt="Promo image">
+
+                    <div class="container">
+                        <div class="carousel-caption text-end">
+                            <h1>{{ object.title }}</h1>
+                            <p>{{ object.sub_title }}</p>
+                            <p><a class="btn btn-lg btn-info" href="{% url 'promo:promos' %}">Подробнее</a></p>
+                            {# <p><a class="btn btn-lg btn-info" href="{{ object.slug }}">Подробнее</a></p> #}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777"/>
-                </svg>
 
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Some representative placeholder content for the second slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-info" href="#">Learn more</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777"/>
-                </svg>
+                {% endfor %}
 
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <h1>One more for good measure.</h1>
-                        <p>Some representative placeholder content for the third slide of this carousel.</p>
-                        <p><a class="btn btn-lg btn-info" href="#">Browse gallery</a></p>
-                    </div>
-                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
+
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
-    <!-- FOOTER -->
-    <footer class="container">
-        <p class="float-end"><a href="#">Back to top</a></p>
-        <p>&copy; 2024 Medical Center, Inc.</p>
-    </footer>
-    </div>
+
+        <div class="container marketing">
+            <p><h1 class="fw-normal text-center text-secondary"><strong>Почему Medical Center</strong></h1></p>
+
+            <div class="row mt-5">
+                <div class="col-lg-4">
+                    <img src="/static/images/tests.svg" alt="Tests" width="100" height="100">
+                    <br><br>
+                    <p>более</p>
+                    <h1 class="fw-normal text-info"><strong>120</strong></h1>
+                    <p>сделано анализов</p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <img src="/static/images/doctors.svg" alt="Tests" width="100" height="100">
+                    <br><br>
+                    <p>более</p>
+                    <h1 class="fw-normal text-info"><strong>12</strong></h1>
+                    <p>работают врачей</p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <img src="/static/images/patient.svg" alt="Tests" width="100" height="100">
+                    <br><br>
+                    <p>более</p>
+                    <h1 class="fw-normal text-info"><strong>1200</strong></h1>
+                    <p>пациентов</p>
+                </div><!-- /.col-lg-4 -->
+            </div>
+
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading fw-normal lh-1">Врачи и медицинский персонал</h2>
+                    <p class="lead">Все сотрудники, допущенные к работе с оборудованием, обучены авторизованными
+                        тренерами официальных поставщиков оборудования, имеют сертификаты и опыт работы на нем.
+                        Собственная система внутренней аттестации сотрудников позволяет непрерывно повышать уровень
+                        сервиса и качество обслуживания</p>
+                </div>
+                <div class="col-md-5">
+                    <img src="/static/images/doctors.jpeg" class="img-fluid rounded-start" alt="Promo image">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading fw-normal lh-1">Оборудование и препараты</h2>
+                    <p class="lead">Передовое оборудование – наш приоритет (в арсенале - все топовые новинки из числа
+                        методик, эффективность и безопасность которых подтверждены авторитетными клиническими
+                        исследованиями):</p>
+                    <ul>
+                        <li>Abbott, США</li>
+                        <li>F. Hoffmann-La Roche Ltd., Швейцария</li>
+                        <li>Roche Diagnostics GmbH, Германия</li>
+                        <li>Sysmex Corporation, Япония</li>
+                        <li>и многие другие</li>
+                    </ul>
+                </div>
+                <div class="col-md-5 order-md-1">
+                    <img src="/static/images/kt_device.jpeg" class="img-fluid rounded-start" alt="Promo image">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading fw-normal lh-1">Служба выезда на дом</h2>
+                    <p class="lead">Если у вас нет времени на посещение нашего медицинского центра, вы можете следить за
+                        состоянием своего здоровья и сдавать анализы, не выходя из дома! Оставьте заявку, и специалисты
+                        выездной медицинской службы приедут в удобное для вас время для взятия биоматериала. Результаты
+                        анализов вы получите по электронной почте или через мессенджер WhatsApp</p>
+                    <p><strong>Заказать по телефону +7 (123) 456-78-90</strong></p>
+                </div>
+                <div class="col-md-5">
+                    <img src="/static/images/tests_at_home.jpg" class="img-fluid rounded-start" alt="Promo image">
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+        </div>
+
 
 </main>
 {% endblock %}
