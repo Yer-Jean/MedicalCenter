@@ -14,6 +14,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/accordion.css' %}" rel="stylesheet">
 
     <!-- Favicons -->
     <!--<link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">-->
@@ -48,7 +49,7 @@
 <body>
 
 <header>
-    <nav class="navbar navbar-expand-md fixed-top bg-info">
+    <nav class="navbar navbar-expand-md fixed-top bg-primary-subtle">
         <div class="container-fluid ">
 
             <a class="navbar-brand" href="/">
@@ -67,10 +68,13 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Диагностика</a>
+                        <a class="nav-link" aria-current="page" href="#">Акции</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Анализы</a>
+                        <a class="nav-link" aria-current="page" href="{% url 'main:diagnostics' %}">Диагностика</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main:tests' %}">Анализы</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Врачи</a>
