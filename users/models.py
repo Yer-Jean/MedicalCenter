@@ -23,8 +23,8 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    # def role(self, group_name):
-    #     return self.groups.filter(name=group_name).exists()
+    def role(self, group_name):
+        return self.groups.filter(name=group_name).exists()
 
     class Meta:
         verbose_name = 'Пользователь'
