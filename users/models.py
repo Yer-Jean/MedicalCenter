@@ -9,8 +9,8 @@ class User(AbstractUser):
 
     first_name = models.CharField(max_length=50, verbose_name='Имя')
     last_name = models.CharField(max_length=50, verbose_name='Фамилия')
-    birthday = models.DateField(verbose_name='Дата рождения')
 
+    birthday = models.DateField(verbose_name='Дата рождения', **settings.NULLABLE)
     phone = models.CharField(max_length=35, verbose_name='Телефон', **settings.NULLABLE)
     address = models.CharField(max_length=150, verbose_name='Адрес', **settings.NULLABLE)
     photo = models.ImageField(upload_to='users/', verbose_name='Фото', **settings.NULLABLE)
@@ -23,8 +23,8 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    # def role(self, group_name):
-    #     return self.groups.filter(name=group_name).exists()
+    def role(self, group_name):
+        return self.groups.filter(name=group_name).exists()
 
     class Meta:
         verbose_name = 'Пользователь'

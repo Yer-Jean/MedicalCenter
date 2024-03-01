@@ -27,7 +27,6 @@
                             <h1>{{ object.title }}</h1>
                             <p>{{ object.sub_title }}</p>
                             <p><a class="btn btn-lg btn-info" href="{% url 'promo:promos' %}">Подробнее</a></p>
-                            {# <p><a class="btn btn-lg btn-info" href="{{ object.slug }}">Подробнее</a></p> #}
                         </div>
                     </div>
                 </div>
@@ -55,23 +54,23 @@
                 <div class="col-lg-4">
                     <img src="/static/images/tests.svg" alt="Tests" width="100" height="100">
                     <br><br>
-                    <p>более</p>
-                    <h1 class="fw-normal text-info"><strong>120</strong></h1>
                     <p>сделано анализов</p>
+
+<!--#TODO: Рассчитать количественные данные-->
+
+                    <h1 class="fw-normal text-info"><strong>{{ count_tests }}</strong></h1>
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
                     <img src="/static/images/doctors.svg" alt="Tests" width="100" height="100">
                     <br><br>
-                    <p>более</p>
-                    <h1 class="fw-normal text-info"><strong>12</strong></h1>
                     <p>работают врачей</p>
+                    <h1 class="fw-normal text-info"><strong>{{ count_doctors }}</strong></h1>
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
                     <img src="/static/images/patient.svg" alt="Tests" width="100" height="100">
                     <br><br>
-                    <p>более</p>
-                    <h1 class="fw-normal text-info"><strong>1200</strong></h1>
                     <p>пациентов</p>
+                    <h1 class="fw-normal text-info"><strong>{{ count_users }}</strong></h1>
                 </div><!-- /.col-lg-4 -->
             </div>
 
