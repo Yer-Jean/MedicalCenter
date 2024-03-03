@@ -1,10 +1,13 @@
 {% extends 'main/base.html' %}
+{% load users_tags %}
 {% block content %}
 
+<img src="/static/images/tests.jpg" class="img-fluid" alt="Tests">
 
 <main class="container">
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <div class="container px-4 py-0">
+
 
 
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -45,8 +48,10 @@
                                         {{ test.description }}
                                         {% endif %}
                                     </div>
+                                    {% if not request.user|has_group:"doctors" %}
                                     <a type="button" class="btn btn-sm btn-outline-secondary"
                                        href="{% url 'main:diagnostic_category_create' %}">Записаться</a>
+                                    {% endif %}
                                 </li>
                                 {% endfor %}
                             </ol>

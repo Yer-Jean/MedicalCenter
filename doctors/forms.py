@@ -31,11 +31,16 @@ class DoctorCreateForm(StyleFormMixin, UserCreationForm):
 
 
 class DoctorEditForm(StyleFormMixin, forms.ModelForm):
+    """ Кастомная форма заполнения данных о докторе. Создана из-за
+    заполнения данных о врачебной специализации, которых может быть
+    несколько """
     # Описываем поля ввода данных для кастомной формы
     email = forms.EmailField()
     first_name = forms.CharField(label='Имя', max_length=50)
     last_name = forms.CharField(label='Фамилия', max_length=50)
-    birthday = forms.DateField(label='Дата рождения', required=False)
+    birthday = forms.DateField(label='Дата рождения',
+                               widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'dd/mm/yy'}),
+                               required=False)
     phone = forms.CharField(label='Телефон', max_length=35, required=False)
     address = forms.CharField(label='Адрес', max_length=150, required=False)
     photo = forms.ImageField(label='Фото', required=False)

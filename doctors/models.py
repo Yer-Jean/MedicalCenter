@@ -24,4 +24,4 @@ class Doctor(models.Model):
         # permissions = [('modify_tests_results', 'Can add/edit tests results'),]
 
     def __str__(self):
-        return self.user.last_name
+        return self.user
