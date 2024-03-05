@@ -1,4 +1,5 @@
 {% load static %}
+{% load users_tags %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,6 +40,11 @@
           .bd-placeholder-img-lg {
             font-size: 3.5rem;
           }
+        }
+
+        /* Стиль для изменения вида курсора в таблицах */
+        tr.link {
+          cursor: pointer;
         }
     </style>
 
@@ -81,6 +87,11 @@
                     {% if request.user.is_staff %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'doctors:doctors' %}">Пациенты</a>
+                    </li>
+                    {% endif %}
+                    {% if request.user|has_group:"doctors" %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main:results' %}">Результаты анализов</a>
                     </li>
                     {% endif %}
                 </ul>
