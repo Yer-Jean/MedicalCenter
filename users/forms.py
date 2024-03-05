@@ -25,3 +25,10 @@ class LoginForm(StyleFormMixin, AuthenticationForm):
     class Meta:
         model = User
         fields = ('email', 'password')
+
+
+class UserForm(StyleFormMixin, forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('first_name','last_name','birthday','phone','address','photo','comment',)

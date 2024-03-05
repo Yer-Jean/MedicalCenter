@@ -12,5 +12,9 @@ urlpatterns = [
     path('diagnostics/category_create/', DiagnosticCategoryCreateView.as_view(), name='diagnostic_category_create'),
     path('diagnostics/create/', DiagnosticCreateView.as_view(), name='diagnostic_create'),
 
+    path('results/', ResultListView.as_view(), name='results'),
+    path('results/create/', ResultCreateView.as_view(), name='result_create'),
+    path('results/view/<int:pk>', ResultDetailView.as_view(), name='result_view'),
+
     path('tests/', TestCategoryListView.as_view(), name='tests'),
 ]
