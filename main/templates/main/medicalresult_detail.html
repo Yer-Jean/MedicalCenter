@@ -21,7 +21,7 @@
                                     <dt class="col-sm-3">Описание</dt>
                                     <dd class="col-sm-9">{{ object.description }}</dd>
                                     <dt class="col-sm-3">Назначение</dt>
-                                    {% if object.object.prescription %}
+                                    {% if object.prescription %}
                                     <dd class="col-sm-9">{{ object.prescription|linebreaksbr }}</dd>
                                     {% else %}
                                     <dd class="col-sm-9">—</dd>
@@ -58,17 +58,13 @@
 
                             <div class="btn-group">
                                 <a class="btn btn-outline-secondary btn-sm" href="{% url 'main:results' %}">Все результаты</a>
-
-                                {% comment %}
-
                                 {% if request.user|has_group:"doctors" %}
                                 <a class="btn btn-outline-secondary btn-sm"
-                                   href="#">Редактировать</a>
+                                   href="{% url 'main:result_update' object.pk %}">Редактировать</a>
                                 <a class="btn btn-outline-danger btn-sm"
-                                   href="#">Удалить</a>
+                                   href="{% url 'main:result_delete' object.pk %}">Удалить</a>
                                 {% endif %}
 
-                                {% endcomment %}
 
 
                             </div>

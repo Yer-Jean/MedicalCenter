@@ -44,3 +44,4 @@ class MedicalResultForm(StyleFormMixin, forms.ModelForm):
 class MedicalResultFileForm(StyleFormMixin, forms.Form):
     file = forms.FileField(label='Загрузить файл', required=False)
     file_description = forms.CharField(label='Описание файла', max_length=50, required=False)
+    # delete_file = forms.BooleanField(label='Удалить файл', required=False)

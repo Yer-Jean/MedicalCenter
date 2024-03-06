@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect
@@ -10,7 +10,7 @@ from doctors.forms import DoctorEditForm
 from doctors.models import Doctor
 from users.forms import LoginForm, UserRegisterForm, UserForm
 from users.models import User
-from users.tasks import send_activation_email
+from users.tasks import send_notification_email
 
 
 class UserLoginView(LoginView):
@@ -27,8 +27,9 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         self.object.verification_token = get_random_string(30)
-        send_activation_email.delay(
+        send_notification_email.delay(
             self.object.email,
+            'Активируйте учетную запись',
             f'Здравствуйте!\nНажмите на ссылку ниже для активации вашей учетной записи\n'
             f'http://{get_current_site(self.request)}/users/confirm/{self.object.verification_token}')
         return super().form_valid(form)
@@ -91,5 +92,5 @@ def activate_user(request, token):
     return redirect(reverse('users:login'))
 
 
-class UserDeleteView(LoginRequiredMixin, DeleteView):
+class UserDeleteView(UserPassesTestMixin, DeleteView):
     model = User

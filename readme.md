@@ -11,9 +11,12 @@
   - создать superuser'а командой ***python manage.py create_super_user [email] [first_name] [last_name] [password]***
   - создать в БД группы пользователей managers и doctors и присвоить им кастомные права командами
     - ***python manage.py create_user_group managers set_promo_active_status*** 
-    - ***python manage.py create_user_group doctors modify_tests_results***
+    - ***python manage.py create_user_group doctors modify_medical_results***
   - заполнить БД тестовыми данными из файлов main_data.json и promo_data.json командами
     - ***python manage.py loaddata users_data.json***
     - ***python manage.py loaddata main_data.json***
     - ***python manage.py loaddata promo_data.json*** 
 
+Для отправки уведомлений по электронной почте необходимо запустить:
+- celery -A config worker -l INFO
+- redis-server

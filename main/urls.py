@@ -15,6 +15,8 @@ urlpatterns = [
     path('results/', ResultListView.as_view(), name='results'),
     path('results/create/', ResultCreateView.as_view(), name='result_create'),
     path('results/view/<int:pk>', ResultDetailView.as_view(), name='result_view'),
+    path('results/update/<int:pk>', ResultUpdateView.as_view(), name='result_update'),
+    path('results/delete/<int:pk>', ResultDeleteView.as_view(), name='result_delete'),
 
     path('tests/', TestCategoryListView.as_view(), name='tests'),
 ]
