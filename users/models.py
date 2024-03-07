@@ -32,6 +32,5 @@ class User(AbstractUser):
         ordering = ('last_name',)
         permissions = [('activate_delete_users', 'Can activate/delete users'),]
 
-
     def __str__(self):
         return self.email

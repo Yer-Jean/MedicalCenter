@@ -123,7 +123,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 NULLABLE = {'blank': True, 'null': True}
 
 # Static files (CSS, JavaScript, Images)
@@ -164,3 +163,5 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL') == '1'
+
+MED_CENTER_EMAIL = os.getenv('MED_CENTER_EMAIL')

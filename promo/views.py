@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
@@ -18,20 +18,23 @@ class PromoListView(ListView):
         return queryset
 
 
-class PromoCreateView(LoginRequiredMixin, CreateView):
+class PromoCreateView(PermissionRequiredMixin, CreateView):
     model = Promo
     form_class = PromoForm
+    permission_required = 'promo.set_promo_active_status'
     success_url = reverse_lazy('promo:promos')
 
 
-class PromoUpdateView(LoginRequiredMixin, UpdateView):
+class PromoUpdateView(PermissionRequiredMixin, UpdateView):
     model = Promo
     form_class = PromoForm
+    permission_required = 'promo.set_promo_active_status'
     success_url = reverse_lazy('promo:promos')
 
 
-class PromoDeleteView(LoginRequiredMixin, DeleteView):
+class PromoDeleteView(PermissionRequiredMixin, DeleteView):
     model = Promo
+    permission_required = 'promo.set_promo_active_status'
     success_url = reverse_lazy('promo:promos')
 
 

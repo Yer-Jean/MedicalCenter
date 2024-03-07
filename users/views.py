@@ -131,14 +131,12 @@ class UserDeleteView(PermissionRequiredMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.role('managers')
-        # return self.request.user.is_staff
 
 
 class UserListView(PermissionRequiredMixin, ListView):
     model = User
     permission_required = 'users.activate_delete_users'
 
-    # def get_user_queryset(self):
     def get_queryset(self):
         # Выбираем только тех пользователей, которые не входят ни в какую
         # группу (doctors, managers), то есть обычных пользователей/пациентов
