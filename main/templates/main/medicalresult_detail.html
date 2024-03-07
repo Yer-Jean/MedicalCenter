@@ -6,7 +6,6 @@
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <div class="container px-4 py-0">
 
-
             <div class="card">
                 <div class="row g-0">
                     <div class="card-header">
@@ -45,16 +44,13 @@
                                         {% endif %}
                                     </dd>
 
-
                                 </dl>
                             </div>
                         </div>
                     </div>
 
-
                     <div class="card-footer">
                         <div class="d-flex justify-content-between align-items-center">
-
 
                             <div class="btn-group">
                                 <a class="btn btn-outline-secondary btn-sm" href="{% url 'main:results' %}">Все результаты</a>
@@ -65,20 +61,15 @@
                                    href="{% url 'main:result_delete' object.pk %}">Удалить</a>
                                 {% endif %}
 
-
-
                             </div>
-
 
                             <small>Создано: <strong>{{ object.created_date|date:"d.m.Y H:i" }}</strong>, Изменено:
                                 <strong>{{ object.modified_date|date:"d.m.Y H:i" }}</strong></small>
                         </div>
                     </div>
 
-
                 </div>
             </div>
-
 
         </div>
     </div>

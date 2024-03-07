@@ -1,14 +1,14 @@
 import random
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView, CreateView
+from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
 from django.contrib.sites.shortcuts import get_current_site
+from django.conf import settings
 
 from doctors.models import Doctor
 from main.forms import MedicalResultForm, MedicalResultFileForm
-# from main.forms import DiagnosticForm, DiagnosticCategoryForm, MedicalResultForm, MedicalResultFileForm
 from main.models import DiagnosticCategory, TestCategory, MedicalResult, MedicalResultFile
 from promo.models import Promo
 from users.models import User
@@ -50,23 +50,6 @@ class DiagnosticCategoryListView(ListView):
     model = DiagnosticCategory
 
 
-# class DiagnosticCategoryCreateView(LoginRequiredMixin, CreateView):
-#     model = DiagnosticCategory
-#     form_class = DiagnosticCategoryForm
-#
-#     def get_success_url(self):
-#         return reverse('main:diagnostics', args=[self.object.pk])
-
-
-# class DiagnosticListView(ListView):
-#     model = Diagnostic
-
-
-# class DiagnosticCreateView(LoginRequiredMixin, CreateView):
-#     model = Diagnostic
-#     form_class = DiagnosticForm
-
-
 class TestCategoryListView(ListView):
     model = TestCategory
 
@@ -94,17 +77,6 @@ class ResultListView(PermissionRequiredMixin, ListView):
         context['medical_result_files'] = medical_result_files
         return context
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     medical_results = self.get_queryset()
-    #     medical_result_files = {}
-    #     for result in medical_results:
-    #         if result.medicalresultfile:
-    #             medical_result_files[result.id] = result.medicalresultfile.file.url
-    #             break  # Закончим цикл, если найден файл
-    #     context['medical_result_files'] = medical_result_files
-    #     return context
-
 
 class ResultCreateView(PermissionRequiredMixin, FormView):
     model = MedicalResult
@@ -114,16 +86,12 @@ class ResultCreateView(PermissionRequiredMixin, FormView):
     template_name = 'main/medicalresult_form.html'
 
     def form_valid(self, form):
-        # result_instance = form.save(commit=False)
         self.object = form.save(commit=False)  # Сначала сохраняем форму, но не в базу данных
         # Получаем объект врача, соответствующего текущему пользователю
         doctor = Doctor.objects.get(user=self.request.user)
         self.object.doctor = doctor  # Присваиваем врача записи MedicalResult
         self.object.save()  # Теперь сохраняем запись MedicalResult
 
-        # self.perform_create(self.object)
-
-        # result_instance.save()
         file_form = self.file_form_class(self.request.POST, self.request.FILES)
         if file_form.is_valid():
             file_description = file_form.cleaned_data['file_description']
@@ -131,7 +99,6 @@ class ResultCreateView(PermissionRequiredMixin, FormView):
                 file_instance = MedicalResultFile(medical_result=self.object,
                                                   file=self.request.FILES['file'],
                                                   file_description=file_description)
-                # file_instance = MedicalResultFile(medical_result=result_instance, file=self.request.FILES['file'])
                 file_instance.save()
             send_notification_email.delay(
                 self.object.user.email,
@@ -149,33 +116,16 @@ class ResultCreateView(PermissionRequiredMixin, FormView):
         return context
 
     def get_success_url(self):
-        # return reverse('main:results')
         return reverse('main:result_view', args=[self.object.pk])
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        print(instance.user.email)
         send_notification_email.delay(
             instance.user.email,
             'Новый результат обследования/анализа',
             f'Здравствуйте!\nВ вашем личном кабинете появился новый результат обследования/анализа\n'
             f'Для ознакомления пройдите по ссылке\n'
             f'http://{get_current_site(self.request)}/users/{self.object.pk}')
-
-# class ResultCreateView(LoginRequiredMixin, CreateView):
-#     model = MedicalResult
-#     form_class = MedicalResultForm
-#
-#     def get_success_url(self):
-#         return reverse('main:results')
-#         # return reverse('main:result_view', args=[self.object.pk])
-#
-#     def form_valid(self, form):
-#         self.object = form.save(commit=False)  # Сначала сохраняем форму, но не в базу данных
-#         doctor = Doctor.objects.get(user=self.request.user)  # Получаем объект врача, соответствующего текущему пользователю
-#         self.object.doctor = doctor  # Присваиваем врача записи MedicalResult
-#         self.object.save()  # Теперь сохраняем запись MedicalResult
-#         return super().form_valid(form)
 
 
 class ResultDetailView(PermissionRequiredMixin, DetailView):
@@ -198,7 +148,6 @@ class ResultUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = MedicalResultForm
     file_form_class = MedicalResultFileForm
     permission_required = 'main.modify_medical_results'
-    # template_name = 'main/medicalresult_update_form.html'
     success_url = reverse_lazy('main:results')
 
     def get_queryset(self):
@@ -215,7 +164,6 @@ class ResultUpdateView(PermissionRequiredMixin, UpdateView):
             context['medical_result_file_description'] = medical_result_file.file_description
             initial_data = {
                 'file_description': medical_result_file.file_description,
-                # Если вы хотите отобразить текущий файл в форме, добавьте его здесь
                 'file': medical_result_file.file,
             }
             file_form = self.file_form_class(initial=initial_data)
@@ -224,12 +172,6 @@ class ResultUpdateView(PermissionRequiredMixin, UpdateView):
             context['medical_result_file'] = None
             file_form = self.file_form_class()
         context['file_form'] = file_form
-        # try:
-        #     medical_result_file = medical_result.medicalresultfile
-        #     context['medical_result_file'] = medical_result_file.file.url
-        #     context['medical_result_file_description'] = medical_result_file.file_description
-        # except MedicalResultFile.DoesNotExist:
-        #     context['medical_result_file'] = None
         return context
 
     def form_valid(self, form):
@@ -274,3 +216,19 @@ class ResultDeleteView(PermissionRequiredMixin, DeleteView):
     def get_queryset(self):
         # Фильтруем запрос так, чтобы удаляемый результат принадлежал текущему пользователю
         return super().get_queryset().filter(doctor=self.request.user.pk)
+
+
+def make_appointment(request):
+    context = {
+        'name': f'{request.user.first_name} {request.user.last_name}',
+        'from': request.user.email,
+        'phone': request.user.phone,
+    }
+    if request.method == 'POST':
+        send_notification_email.delay(
+            settings.MED_CENTER_EMAIL,
+            f'Сообщение от пользователя {request.POST.get("name")}',
+            f'{request.POST.get("message")}\n\n'
+            f'{request.POST.get("name")}\n{request.POST.get("email")}\n{request.POST.get("phone")}')
+
+    return render(request, 'main/appointment.html', context)

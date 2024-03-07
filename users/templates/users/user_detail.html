@@ -5,7 +5,6 @@
 <main class="container">
     <div class="my-3 p-3 bg-body rounded shadow-sm">
 
-
         <div class="card h-100 mb-3">
             <div class="row g-0">
 
@@ -75,14 +74,6 @@
                             {% if request.user == object %}
                             <a class="btn btn-outline-secondary btn-sm"
                                href="{% url 'users:user_update' user.pk %}">Редактировать</a>
-
-                            {% comment %}
-                            {% if request.user.is_staff %}
-                            <a class="btn btn-outline-danger btn-sm"
-                               href="{% url 'doctors:doctor_delete' object.pk %} ">Удалить</a>
-                            {% endif %}
-                            {% endcomment %}
-
                             {% endif %}
 
                         </div>
@@ -101,7 +92,6 @@
             </div>
         </div>
 
-
     </div>
 
     {% if medical_results %}
@@ -111,8 +101,7 @@
             <div class="row g-0">
 
                 <div class="card-header">
-                    <div class="card-title"><p><h6>{{ medical_result.created_date|date:"d M Y" }} - {{
-                        medical_result.description }}</h6></p>
+                    <div class="card-title"><p><h6>{{ medical_result.created_date|date:"d M Y" }} - {{ medical_result.description }}</h6></p>
                     </div>
                 </div>
 
@@ -136,22 +125,19 @@
                                 <dt class="col-sm-3">Вложение</dt>
                                 <dd class="col-sm-9">
 
-                                    {% if medical_result.medicalresultfile %}
+                                {% if medical_result.medicalresultfile %}
                                     {% if medical_result.medicalresultfile.file_description %}
-                                    <a href="{{ medical_result.medicalresultfile.file.url }}" target="_blank">{{
-                                        medical_result.medicalresultfile.file_description }}</a>
+                                    <a href="{{ medical_result.medicalresultfile.file.url }}" target="_blank">{{ medical_result.medicalresultfile.file_description }}</a>
                                     {% else %}
-                                    <a href="{{ medical_result.medicalresultfile.file_url }}" target="_blank">Вложенный
-                                        файл</a>
+                                    <a href="{{ medical_result.medicalresultfile.file_url }}" target="_blank">Вложенный файл</a>
                                     {% endif %}
-                                    {% else %}
+                                {% else %}
                                     <p>Файл не прикреплен</p>
-                                    {% endif %}
+                                {% endif %}
 
                                 </dd>
                             </dl>
                         </div>
-
 
                     </div>
                 </div>
@@ -161,7 +147,6 @@
         {% endfor %}
     </div>
     {% endif %}
-
 
 </main>
 

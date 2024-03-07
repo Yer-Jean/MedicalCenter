@@ -14,6 +14,7 @@
     - ***python manage.py create_user_group doctors modify_medical_results***
   - заполнить БД тестовыми данными из файлов main_data.json и promo_data.json командами
     - ***python manage.py loaddata users_data.json***
+    - ***python manage.py loaddata doctors_data.json***
     - ***python manage.py loaddata main_data.json***
     - ***python manage.py loaddata promo_data.json*** 
 

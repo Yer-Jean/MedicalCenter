@@ -80,6 +80,9 @@ class MedicalResult(models.Model):
         ordering = ('-created_date',)
         permissions = [('modify_medical_results', 'Can add/edit medical results'),]
 
+    def __str__(self):
+        return f'{self.user} - {self.description}'
+
 
 class MedicalResultFile(models.Model):
     # Вводим эту модель для перспективы - если нужно будет прикреплять к результатам анализа

@@ -24,4 +24,4 @@ class Doctor(models.Model):
         permissions = [('activate_delete_users', 'Can activate/delete users'),]
 
     def __str__(self):
-        return self.user
+        return self.user.email

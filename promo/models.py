@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from django.urls import reverse
 
 
 class Promo(models.Model):
@@ -12,9 +11,6 @@ class Promo(models.Model):
 
     def __str__(self):
         return self.title
-
-    def get_absolute_url(self):
-        return reverse('promo:promos', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Акция'

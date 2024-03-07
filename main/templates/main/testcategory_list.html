@@ -8,20 +8,10 @@
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <div class="container px-4 py-0">
 
-
-
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3>Анализы</h3>
-                {% comment %}
-                {% if user.is_authenticated %}
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <a type="button" class="btn btn-sm btn-secondary"
-                       href="{% url 'main:diagnostic_category_create' %}">Добавить</a>
-                </div>
-                {% endif %}
-                {% endcomment %}
-            </div>
 
+            </div>
 
             <div class="accordion accordion-flush" id="accordionFlush">
                 {% for object in object_list %}
@@ -52,7 +42,7 @@
                                     </div>
                                     {% if not request.user|has_group:"doctors" %}
                                     <a type="button" class="btn btn-sm btn-outline-secondary"
-                                       href="{% url 'main:tests' %}">Записаться</a>
+                                       href="{% url 'main:make_appointment' %}">Записаться</a>
                                     {% endif %}
                                 </li>
                                 {% endfor %}
