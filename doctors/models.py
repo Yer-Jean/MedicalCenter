@@ -21,7 +21,7 @@ class Doctor(models.Model):
     class Meta:
         verbose_name = 'Доктор'
         verbose_name_plural = 'Доктора'
-        # permissions = [('modify_tests_results', 'Can add/edit tests results'),]
+        permissions = [('activate_delete_users', 'Can activate/delete users'),]
 
     def __str__(self):
         return self.user

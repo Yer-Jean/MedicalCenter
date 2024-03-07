@@ -8,12 +8,14 @@
 
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h3>Доктора</h3>
-                {% if user.is_staff %}
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <a type="button" class="btn btn-sm btn-secondary"
-                       href="{% url 'doctors:doctor_create' %}">Добавить</a>
-                </div>
+
+                {% if request.user|has_group:"managers" %}
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <a type="button" class="btn btn-sm btn-secondary"
+                               href="{% url 'doctors:doctor_create' %}">Добавить</a>
+                        </div>
                 {% endif %}
+
             </div>
 
             <div class="my-3 p-3 bg-body rounded shadow-sm">
@@ -71,7 +73,7 @@
                             <div class="card-footer">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        {% if user.is_staff %}
+                                        {% if request.user|has_group:"managers" %}
                                         <a class="btn btn-outline-secondary btn-sm"
                                            href="{% url 'doctors:doctor_update' object.pk %}">Редактировать</a>
                                         <a class="btn btn-outline-danger btn-sm"
@@ -80,6 +82,7 @@
 <!--                                        Если пользователь в группе doctors, то кнопки не отображаем-->
 <!--                                        Свой профиль он редактирует после нажатия кнопки с email в строке меню -->
                                         {% else %}
+<!--                                        Для простых пользователей - отображаем-->
                                         <a class="btn btn-secondary btn-sm"
                                            href="#">Записаться на прием</a>
                                         {% endif %}

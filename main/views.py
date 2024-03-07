@@ -1,14 +1,14 @@
 import random
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.views.generic import ListView, CreateView, DetailView, FormView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
 from django.contrib.sites.shortcuts import get_current_site
 
 from doctors.models import Doctor
 from main.forms import DiagnosticForm, DiagnosticCategoryForm, MedicalResultForm, MedicalResultFileForm
-from main.models import Diagnostic, DiagnosticCategory, TestCategory, MedicalResult, MedicalResultFile
+from main.models import DiagnosticCategory, TestCategory, MedicalResult, MedicalResultFile
 from promo.models import Promo
 from users.models import User
 from users.tasks import send_notification_email
@@ -49,21 +49,21 @@ class DiagnosticCategoryListView(ListView):
     model = DiagnosticCategory
 
 
-class DiagnosticCategoryCreateView(LoginRequiredMixin, CreateView):
-    model = DiagnosticCategory
-    form_class = DiagnosticCategoryForm
-
-    def get_success_url(self):
-        return reverse('main:diagnostics', args=[self.object.pk])
-
-
-class DiagnosticListView(ListView):
-    model = Diagnostic
+# class DiagnosticCategoryCreateView(LoginRequiredMixin, CreateView):
+#     model = DiagnosticCategory
+#     form_class = DiagnosticCategoryForm
+#
+#     def get_success_url(self):
+#         return reverse('main:diagnostics', args=[self.object.pk])
 
 
-class DiagnosticCreateView(LoginRequiredMixin, CreateView):
-    model = Diagnostic
-    form_class = DiagnosticForm
+# class DiagnosticListView(ListView):
+#     model = Diagnostic
+
+
+# class DiagnosticCreateView(LoginRequiredMixin, CreateView):
+#     model = Diagnostic
+#     form_class = DiagnosticForm
 
 
 class TestCategoryListView(ListView):
@@ -243,7 +243,7 @@ class ResultUpdateView(PermissionRequiredMixin, UpdateView):
                 medical_result_file.file_description = file_description
                 if 'file' in self.request.FILES:
                     medical_result_file.file = self.request.FILES['file']
-                elif file_form.cleaned_data['file'] == False:
+                elif file_form.cleaned_data['file'] is False:
                     medical_result_file.delete()
                 else:
                     medical_result_file.save()
