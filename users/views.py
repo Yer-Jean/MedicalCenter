@@ -10,6 +10,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, DeleteView,
 
 from doctors.forms import DoctorEditForm
 from doctors.models import Doctor
+from main.models import MedicalResultFile
 from users.forms import LoginForm, UserRegisterForm, UserForm
 from users.models import User
 from users.tasks import send_notification_email
@@ -71,6 +72,25 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         if form_class:
             form = form_class(instance=self.object)
             context['form'] = form
+
+        # Получаем все анализы, принадлежащие текущему обычному пользователю
+        # (не состоящему в группах doctors или managers)
+        user = self.request.user  # Получаем профиль пользователя
+        if not user.groups.filter(name__in=['doctors', 'managers']).exists():
+            medical_results = user.medicalresult_set.all()
+            medical_result_files = {}
+            for result in medical_results:
+                try:
+                    medical_result_file = result.medicalresultfile
+                    if medical_result_file:
+                        medical_result_files[result.id] = medical_result_file.file.url
+                except MedicalResultFile.DoesNotExist:
+                    pass
+
+            # Передаем все анализы в контекст
+            context['medical_results'] = medical_results
+            # Передаем информацию о файлах для каждого результата анализа в контекст
+            context['medical_results_files'] = medical_result_files
 
         return context
 

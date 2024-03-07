@@ -1,13 +1,14 @@
 import random
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView, CreateView
 from django.contrib.sites.shortcuts import get_current_site
 
 from doctors.models import Doctor
-from main.forms import DiagnosticForm, DiagnosticCategoryForm, MedicalResultForm, MedicalResultFileForm
+from main.forms import MedicalResultForm, MedicalResultFileForm
+# from main.forms import DiagnosticForm, DiagnosticCategoryForm, MedicalResultForm, MedicalResultFileForm
 from main.models import DiagnosticCategory, TestCategory, MedicalResult, MedicalResultFile
 from promo.models import Promo
 from users.models import User

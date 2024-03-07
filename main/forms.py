@@ -5,18 +5,18 @@ from users.forms import StyleFormMixin
 from users.models import User
 
 
-class DiagnosticCategoryForm(StyleFormMixin, forms.ModelForm):
-
-    class Meta:
-        model = DiagnosticCategory
-        exclude = ('created_by',)
-
-
-class DiagnosticForm(StyleFormMixin, forms.ModelForm):
-
-    class Meta:
-        model = Diagnostic
-        exclude = ('created_by',)
+# class DiagnosticCategoryForm(StyleFormMixin, forms.ModelForm):
+#
+#     class Meta:
+#         model = DiagnosticCategory
+#         exclude = ('created_by',)
+#
+#
+# class DiagnosticForm(StyleFormMixin, forms.ModelForm):
+#
+#     class Meta:
+#         model = Diagnostic
+#         exclude = ('created_by',)
 
 
 class MedicalResultForm(StyleFormMixin, forms.ModelForm):
