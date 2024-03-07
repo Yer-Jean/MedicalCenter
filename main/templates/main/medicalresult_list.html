@@ -41,7 +41,13 @@
                         <td>{{ object.created_date|date:"d M Y" }}</td>
                         <td>{{ object.user.first_name }}</td>
                         <td>{{ object.user.last_name }}</td>
-                        <td>{{ object.user.birthday }}</td>
+                        <td>
+                            {% if object.user.birthday %}
+                                {{ object.user.birthday }}
+                            {% else %}
+                                <p>—</p>
+                            {% endif %}
+                        </td>
                         <td>{{ object.description }}</td>
                         <td>
                             {% if object.medicalresultfile %}
@@ -61,16 +67,14 @@
                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                         View
                     </a>
-                    {% if not request.user|has_group:"managers" %}
-                        <a type="button" class="btn" href="#"
-                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                            Edit
-                        </a>
-                        <a type="button" class="btn" href="#"
-                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                            Delete
-                        </a>
-                    {% endif %}
+                    <a type="button" class="btn" href="{% url 'main:result_update' object.pk %}"
+                       style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        Edit
+                    </a>
+                    <a type="button" class="btn" href="{% url 'main:result_delete' object.pk %}"
+                       style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        Delete
+                    </a>
                 </div>
             </td>
 

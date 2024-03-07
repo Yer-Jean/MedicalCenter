@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -11,10 +11,10 @@ class DoctorListView(ListView):
     model = Doctor
 
 
-class DoctorCreateView(LoginRequiredMixin, CreateView):
+class DoctorCreateView(PermissionRequiredMixin, CreateView):
     model = Doctor
     form_class = DoctorCreateForm
-    # template_name = 'doctors/doctor_form.html'
+    permission_required = 'doctors.activate_delete_users'
     success_url = reverse_lazy('doctors:doctors')
 
     def form_valid(self, form):
@@ -25,15 +25,16 @@ class DoctorCreateView(LoginRequiredMixin, CreateView):
         return response
 
 
-class DoctorUpdateView(LoginRequiredMixin, UpdateView):
+class DoctorUpdateView(PermissionRequiredMixin, UpdateView):
     model = Doctor
     form_class = DoctorEditForm
-    # template_name = 'doctors/doctor_form.html'
+    permission_required = 'doctors.activate_delete_users'
     success_url = reverse_lazy('doctors:doctors')
 
 
-class DoctorDeleteView(DeleteView):
+class DoctorDeleteView(PermissionRequiredMixin, DeleteView):
     model = Doctor
+    permission_required = 'doctors.activate_delete_users'
     success_url = reverse_lazy('doctors:doctors')
 
     def form_valid(self, form):
