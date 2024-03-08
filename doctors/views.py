@@ -1,5 +1,6 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.models import Group
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -25,11 +26,17 @@ class DoctorCreateView(PermissionRequiredMixin, CreateView):
         return response
 
 
-class DoctorUpdateView(PermissionRequiredMixin, UpdateView):
+class DoctorUpdateView(LoginRequiredMixin, UpdateView):
     model = Doctor
     form_class = DoctorEditForm
-    permission_required = 'doctors.activate_delete_users'
     success_url = reverse_lazy('doctors:doctors')
+
+    def get_object(self, queryset=None):
+        user = super().get_object(queryset)
+        if user == self.request.user.doctor:
+            return user
+        else:
+            raise Http404("Доступ запрещен: Вы не можете изменять профили других пользователей")
 
 
 class DoctorDeleteView(PermissionRequiredMixin, DeleteView):
