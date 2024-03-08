@@ -47,6 +47,8 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         user = super().get_object(queryset)
         if self.request.user.groups.filter(name='managers').exists():
             return user
+        if self.request.user.groups.filter(name='doctors').exists():
+            return user
         if user == self.request.user:
             return user
         else:
@@ -114,6 +116,8 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         user = super().get_object(queryset)
         if self.request.user.groups.filter(name='managers').exists():
+            return user
+        if self.request.user.groups.filter(name='doctors').exists():
             return user
         if user == self.request.user:
             return user

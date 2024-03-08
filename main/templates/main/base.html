@@ -80,7 +80,7 @@
                         <a class="nav-link" href="{% url 'doctors:doctors' %}">Доктора</a>
                     </li>
 
-                    {% if request.user.is_staff %}
+                    {% if request.user|has_group:"managers" %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:user_list' %}">Пациенты</a>
                     </li>
