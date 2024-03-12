@@ -45,11 +45,9 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         user = super().get_object(queryset)
-        if self.request.user.groups.filter(name='managers').exists():
-            return user
-        if self.request.user.groups.filter(name='doctors').exists():
-            return user
-        if user == self.request.user:
+        if self.request.user.groups.filter(name='managers').exists() or \
+           self.request.user.groups.filter(name='doctors').exists() or \
+           user == self.request.user:
             return user
         else:
             raise Http404("Доступ запрещен: Вы не можете просматривать профили других пользователей")
@@ -115,11 +113,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         user = super().get_object(queryset)
-        if self.request.user.groups.filter(name='managers').exists():
-            return user
-        if self.request.user.groups.filter(name='doctors').exists():
-            return user
-        if user == self.request.user:
+        if self.request.user.groups.filter(name='managers').exists() or \
+           self.request.user.groups.filter(name='doctors').exists() or \
+           user == self.request.user:
             return user
         else:
             raise Http404("Доступ запрещен: Вы не можете изменять профили других пользователей")

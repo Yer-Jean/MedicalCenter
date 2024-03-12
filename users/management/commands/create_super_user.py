@@ -8,7 +8,8 @@ from users.models import User
 
 class Command(BaseCommand):
     help = ('Create a superuser with the specified email\n'
-            'Usage: python manage.py create__super_user email=john@example.com first_name=John last_name=Doe password=secretword')
+            'Usage: python manage.py create__super_user email=john@example.com '
+            'first_name=John last_name=Doe password=secretword')
     def add_arguments(self, parser):
         parser.add_argument('email', type=str, help='SuperUser email address')
         parser.add_argument('first_name', type=str, help='SuperUser first name')
