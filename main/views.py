@@ -29,14 +29,18 @@ class IndexView(generic.View):
         # Выбираем три случайные акции (без повторов)
         all_active_promo = Promo.objects.filter(is_active=True)
         num_of_active_promo = all_active_promo.count()
-        if num_of_active_promo <= 3:
-            three_promo = all_active_promo
-        else:
-            while len(three_promo) < 3:
-                i = random.randint(0, num_of_active_promo - 1)
-                if all_active_promo[i] not in three_promo:
-                    three_promo.append(all_active_promo[i])
+        # if num_of_active_promo <= 3:
+        #     three_promo = all_active_promo
+        # else:
+        #     while len(three_promo) < 3:
+        #         i = random.randint(0, num_of_active_promo - 1)
+        #         if all_active_promo[i] not in three_promo:
+        #             three_promo.append(all_active_promo[i])
 
+
+        # random.sample() оптимизирована для выбора случайных элементов из последовательности
+        # без повторений и работает быстрее, чем ручное создание цикла с проверкой на уникальность
+        three_promo = random.sample(list(all_active_promo), min(num_of_active_promo, 3))
         context = {
             'count_tests': count_tests,
             'count_doctors': count_doctors,
@@ -219,11 +223,15 @@ class ResultDeleteView(PermissionRequiredMixin, DeleteView):
 
 
 def make_appointment(request):
-    context = {
-        'name': f'{request.user.first_name} {request.user.last_name}',
-        'from': request.user.email,
-        'phone': request.user.phone,
-    }
+    if request.user.pk:
+        context = {
+            'name': f'{request.user.first_name} {request.user.last_name}',
+            'from': request.user.email,
+            'phone': request.user.phone,
+        }
+    else:
+        context = {}
+
     if request.method == 'POST':
         send_notification_email.delay(
             settings.MED_CENTER_EMAIL,

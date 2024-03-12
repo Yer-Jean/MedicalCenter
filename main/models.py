@@ -22,7 +22,8 @@ class Test(models.Model):
     article = models.CharField(max_length=10, verbose_name='Артикул')
     name = models.CharField(max_length=150, verbose_name='Наименование')
     description = models.TextField(**settings.NULLABLE, verbose_name='Описание')
-    test_category = models.ForeignKey(TestCategory, on_delete=models.CASCADE, related_name='tests', verbose_name='Категория')
+    test_category = models.ForeignKey(TestCategory, on_delete=models.CASCADE,
+                                      related_name='tests', verbose_name='Категория')
     deadline = models.PositiveSmallIntegerField(default=1, verbose_name='Срок исполнения')
     price = models.PositiveIntegerField(default=0, verbose_name='Цена')
 
